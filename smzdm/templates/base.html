@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" content="no-cache">
+    <title>快人一步</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" type="text/css" href="/smzdm/static/jquery.mobile-1.4.5.css"/>
+    <link rel="stylesheet" type="text/css" href="/smzdm/static/commen.css"/>
+    <script src="/smzdm/static/jquery-2.1.4.min.js"></script>
+    <script src="/smzdm/static/jquery.mobile-1.4.5.min.js"></script>
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+<div data-role="page">
+    {% block page %}{% endblock %}
+    <div data-role="header">
+        {% block toolbars_text %}{% endblock %}
+        {% block toolbars %}{% endblock %}
+    </div>
+
+    <div data-role="navbar">
+        {% block navbar %}{% endblock %}
+    </div>
+    <div data-role="content">
+        {% block content %}{% endblock %}
+    </div>
+    <div data-role="footer" class="ui-btn">
+        <h3><a href="http://blog.vincentzhong.cn/" style=" text-decoration: none;color: black">Author by V.Z</a></h3>
+        {% block footer %}{% endblock %}
+    </div>
+
+</div>
+
+<div>:{{ debug }}</div>
+</body>

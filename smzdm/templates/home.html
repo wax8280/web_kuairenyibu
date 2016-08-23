@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+
+{% endblock %}
+
+{% block toolbars_text %}<h2>快人一步</h2>{% endblock %}
+{% block toolbars %}
+    <a href="" data-rel="back">返回</a>
+    <a href="#" data-role="button" data-icon="gear" data-iconpos="notext" class="ui-btn-right">设置</a>
+{% endblock %}
+
+
+
+{% block navbar %}
+    <ul>
+        <li><a href="{% url 'home_page' %}" class="ui-btn-active ui-state-persist">首页</a></li>
+        <li><a href="{% url 'view_case_set' %}">推送设置</a></li>
+        <li><a href="{% url 'view_user_info' %}">我的信息</a></li>
+    </ul>
+{% endblock %}
+
+{% block page %}
+    <script type="text/javascript">
+    //jquery Mobile采用ajax加载，所以出此下策
+        $(document).ready(function(){
+            {$('#no_next_1').addClass('ui-state-disabled')}
+            {$('#no_prev_1').addClass('ui-state-disabled')}
+            {$('#no_next_0').removeClass('ui-state-disabled')}
+            {$('#no_prev_0').removeClass('ui-state-disabled')}
+        })
+    </script>
+{% endblock %}
+
+{% block content %}
+    <ul data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="查找">
+        {% if item %}
+            {% for each_item in item %}
+                <li>
+                    <a href="{{ each_item.article_url }}">
+                        <p><strong>{{ each_item.article_title }}</strong></p>
+                        <p style="color: darkred;"><strong>{{ each_item.article_price }} <span>{{ each_item.article_mall }}</span></strong></p>
+                        <p>{{ each_item.article_content|safe }}</p>
+                        <p style="color: gray;"><span>评论：{{ each_item.article_comment }}</span> | <span>值：{{ each_item.worthy_percentage }}%</span> | <span>收藏：{{ each_item.article_collection }}</span> | <span>{{ each_item.article_data }}</span></p>
+                    </a>
+                </li>
+            {% endfor %}
+        {% elif error %}
+            <p>{{ error }}</p>
+        {% endif %}
+    </ul>
+
+    <div>
+        <a href="{% url 'home_page_with_pages' prev_cur %}" data-role="button" class="ui-btn ui-btn-inline " id="no_prev_{{ no_prev }}">上一页</a>
+        <a href="{% url 'home_page_with_pages' next_cur %}" data-role="button" class="ui-btn ui-btn-inline " id="no_next_{{ no_next }}" style="float: right">下一页</a>
+    </div>
+
+{% endblock %}
+

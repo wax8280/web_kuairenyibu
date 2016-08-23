@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% block head %}
+{% endblock %}
+{% block toolbars_text %}<h2>快人一步</h2>{% endblock %}
+{% block toolbars %}
+    <a href="" data-rel="back">返回</a>
+    <a href="#" data-role="button" data-icon="gear" data-iconpos="notext" class="ui-btn-right">设置</a>
+{% endblock %}
+
+{% block navbar %}
+    <ul>
+        <li><a href="{% url 'home_page' %}">首页</a></li>
+        <li><a href="{% url 'view_case_set' %}" class="ui-btn-active ui-state-persist">推送设置</a></li>
+        <li><a href="{% url 'view_user_info' %}">我的信息</a></li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" id="Myform" data-ajax="false">
+        {% csrf_token %}
+        <fieldset data-role="fieldcontain">
+            <label for="case_from_where">选择监控推送的位置</label>
+            <select name="case_from_where" id="case_from_where">
+                <option value="0">全部</option>
+                <option value="1">优惠</option>
+                <option value="2">海淘</option>
+                <option value="3">发现</option>
+            </select>
+        </fieldset>
+
+        <fieldset data-role="fieldcontain">
+            <label for="case_type">选择Case类型</label>
+            <select name="case_type" id="case_type">
+                <option value="0">请选择</option>
+                <option value="1">根据标题过滤（关键词）</option>
+                <option value="2">根据评论数量过滤（大于）</option>
+                <option value="3">根据分类过滤（关键词）</option>
+                <option value="4">根据商城过滤（关键词）</option>
+                <option value="5">根据价格过滤（大于）</option>
+                <option value="6">根据价格过滤（小于）</option>
+                <option value="7">根据值过滤（大于）</option>
+                <option value="8">根据不值过滤（小于）</option>
+                <option value="9">根据值的百分比过滤（大于）</option>
+                <option value="10">根据收藏数量过滤（大于）</option>
+                <option value="11">根据价格过滤（关键词）</option>
+            </select>
+        </fieldset>
+
+        <input type="text" name="case_keyword" id="case_keyword" placeholder="Case 关键词"/>
+
+
+        <div id="filter_case_fieldset_1" style="display: none">
+            <fieldset data-role="fieldcontain">
+                <label for="filter_type_1">选择Filter类型</label>
+                <select name="filter_type_1" id="filter_type_1">
+                    <option value="0">请选择</option>
+                    <option value="1">根据标题过滤（关键词）</option>
+                    <option value="2">根据评论数量过滤（大于）</option>
+                    <option value="3">根据分类过滤（关键词）</option>
+                    <option value="4">根据商城过滤（关键词）</option>
+                    <option value="5">根据价格过滤（大于）</option>
+                    <option value="6">根据价格过滤（小于）</option>
+                    <option value="7">根据值过滤（大于）</option>
+                    <option value="8">根据不值过滤（小于）</option>
+                    <option value="9">根据值的百分比过滤（大于）</option>
+                    <option value="10">根据收藏数量过滤（大于）</option>
+                    <option value="11">根据价格过滤（关键词）</option>
+                </select>
+            </fieldset>
+            <input type="text" name="filter_keyword_1" id="filter_keyword_1" placeholder="Filter 关键词"/>
+        </div>
+        <div id="filter_case_fieldset_2" style="display: none">
+            <fieldset data-role="fieldcontain">
+                <label for="filter_type_2">选择Filter类型</label>
+                <select name="filter_type_2" id="filter_type_2">
+                    <option value="0">请选择</option>
+                    <option value="1">根据标题过滤（关键词）</option>
+                    <option value="2">根据评论数量过滤（大于）</option>
+                    <option value="3">根据分类过滤（关键词）</option>
+                    <option value="4">根据商城过滤（关键词）</option>
+                    <option value="5">根据价格过滤（大于）</option>
+                    <option value="6">根据价格过滤（小于）</option>
+                    <option value="7">根据值过滤（大于）</option>
+                    <option value="8">根据不值过滤（小于）</option>
+                    <option value="9">根据值的百分比过滤（大于）</option>
+                    <option value="10">根据收藏数量过滤（大于）</option>
+                    <option value="11">根据价格过滤（关键词）</option>
+                </select>
+            </fieldset>
+            <input type="text" name="filter_keyword_2" id="filter_keyword_2" placeholder="Filter 关键词"/>
+        </div>
+        <div id="filter_case_fieldset_3" style="display: none">
+            <fieldset data-role="fieldcontain">
+                <label for="filter_type_3">选择Filter类型</label>
+                <select name="filter_type_3" id="filter_type_3">
+                    <option value="0">请选择</option>
+                    <option value="1">根据标题过滤（关键词）</option>
+                    <option value="2">根据评论数量过滤（大于）</option>
+                    <option value="3">根据分类过滤（关键词）</option>
+                    <option value="4">根据商城过滤（关键词）</option>
+                    <option value="5">根据价格过滤（大于）</option>
+                    <option value="6">根据价格过滤（小于）</option>
+                    <option value="7">根据值过滤（大于）</option>
+                    <option value="8">根据不值过滤（小于）</option>
+                    <option value="9">根据值的百分比过滤（大于）</option>
+                    <option value="10">根据收藏数量过滤（大于）</option>
+                    <option value="11">根据价格过滤（关键词）</option>
+                </select>
+            </fieldset>
+            <input type="text" name="filter_keyword_3" id="filter_keyword_3" placeholder="Filter 关键词"/>
+        </div>
+
+        <input type="button" value="添加过滤器" id="filter_add">
+        <input type="submit" value="提交" id="submit"/>
+    </form>
+    <script type="text/javascript">
+        var i = 0
+        $(document).ready(function () {
+            $("#filter_add").on('tap',function () {
+                i++;
+                max = 3
+                if (i > max) {
+                    i = max
+                    alert('最多只能添加' + max + '条Filter');
+                    return;
+                }
+                var select_ = '#filter_case_fieldset_' + i;
+                $(select_).css('display', 'block')
+            })
+
+            //验证
+            $("#Myform").submit(function (e) {
+                var is_vaild = 1
+                var expression_only_num = /^([0-9]+)$/
+
+                var select_case_keyword_val = $('#case_keyword').val()
+                if (select_case_keyword_val == '') {
+                    is_vaild = 0;
+                }
+                else {
+                    var select_case_type_val = $('#case_type').val()
+                    if (select_case_type_val == '0') {
+                        is_vaild = 0
+                    }
+                    if (select_case_type_val == '2' || select_case_type_val == '5' ||
+                            select_case_type_val == '6' || select_case_type_val == '7' ||
+                            select_case_type_val == '8' || select_case_type_val == '9' ||
+                            select_case_type_val == '10') {
+
+                        var is_ = expression_only_num.exec(select_case_keyword_val)
+
+                        if (is_ == null) {
+                            is_vaild = 0;
+                        }
+                    }
+                }
+
+                for (var i_ = 1; i_ <= i; i_++) {
+                    var select_filter_keyword = '#filter_keyword_' + i_
+                    var select_filter_type = '#filter_type_' + i_
+                    var select_filter_keyword_val = $(select_filter_keyword).val()
+                    var select_filter_type_val = $(select_filter_type).val()
+
+                    if (select_filter_keyword_val == '' && select_filter_type_val != '0') {
+                        is_vaild = 0;
+                    }
+                    else {
+
+                        if (select_filter_type_val == '2' || select_filter_type_val == '5' ||
+                                select_filter_type_val == '6' || select_filter_type_val == '7' ||
+                                select_filter_type_val == '8' || select_filter_type_val == '9' ||
+                                select_filter_type_val == '10') {
+
+                            var is_ = expression_only_num.exec(select_filter_keyword_val)
+
+                            if (is_ == null) {
+                                is_vaild = 0;
+                            }
+                        }
+                    }
+                }
+
+                if (is_vaild == 1) {
+                    var temp_url = window.location.href
+                    temp_url = temp_url - 'add_case'
+                    window.location = temp_url
+                    return true;
+                }
+                else {
+                    alert('您似乎还有一些表格没有填写(或者填写有错误？类型中‘大于’，‘小于’这些选项只能填写数字)');
+                    return false;
+                }
+
+            })
+        })
+    </script>
+{% endblock %}

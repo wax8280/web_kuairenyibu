@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block head %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.delete').on("tap", function (e) {
+                e.preventDefault()
+                $.getJSON(e.target, function (data) {
+                    if (data.result == '1') {
+                        window.location.reload()
+                    }
+                    else {
+                        alert('无法删除？似乎服务器有点问题？请向管理员反映。')
+                    }
+                })
+
+            })
+            $('.type_1').append('<span>根据标题过滤（关键词）</span>')
+            $('.type_2').append('<span>根据评论数量过滤（大于）</span>')
+            $('.type_3').append('<span>根据分类过滤（关键词）</span>')
+            $('.type_4').append('<span>根据商城过滤（关键词）</span>')
+            $('.type_5').append('<span>根据价格过滤（大于）</span>')
+            $('.type_6').append('<span>根据价格过滤（小于）</span>')
+            $('.type_7').append('<span>根据值过滤（大于）</span>')
+            $('.type_8').append('<span>根据不值过滤（小于）</span>')
+            $('.type_9').append('<span>根据值的百分比过滤（大于）</span>')
+            $('.type_10').append('<span>根据收藏数量过滤（大于）</span>')
+            $('.type_11').append('<span>根据价格过滤（关键词）</span>')
+        })
+    </script>
+{% endblock %}
+{% block toolbars_text %}<h2>快人一步</h2>{% endblock %}
+{% block toolbars %}
+    <a href="" data-rel="back">返回</a>
+    <a href="#" data-role="button" data-icon="gear" data-iconpos="notext" class="ui-btn-right">设置</a>
+{% endblock %}
+
+{% block navbar %}
+    <ul>
+        <li><a href="{% url 'home_page' %}">首页</a></li>
+        <li><a href="{% url 'view_case_set' %}" class="ui-btn-active ui-state-persist">推送设置</a></li>
+        <li><a href="{% url 'view_user_info' %}">我的信息</a></li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <ul data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="查找" data-icon="false"
+        data-split-icon="delete">
+        {% if caselists %}
+            {% for case in caselists %}
+                <li>
+                    <a href="{{ case.case_id }}">
+                        <h3 style="margin-bottom: 1em">您的推送ID：{{ case.case_id }}</h3>
+                        <p class="type_{{ case.type }}">你的推送类型：{{ case.type }}  |  </p>
+                        <p>你的推送关键词：{{ case.keyword }}</p>
+                        {% for filter in case.filter_set.all %}
+                            <p class="type_{{ filter.type }}">过滤器类型：{{ filter.type }}  |  </p>
+                            <p>过滤器关键词：{{ filter.keyword }}</p>
+                        {% endfor %}
+                        <span class="ui-li-count">{{ case.his_set.all.count }}</span>
+                    </a>
+                    <a href="{% url 'delete_case' case.case_id %}" class="delete">Delete</a>
+                </li>
+            {% endfor %}
+        {% elif error %}
+            <p>{{ error }}</p>
+        {% endif %}
+    </ul>
+    <a data-role="button" href="{% url 'add_case' e_mail %}">添加新推送</a>
+{% endblock %}

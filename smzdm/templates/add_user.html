@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block head %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var expression_only_num = /^([0-9]+)$/
+            var $error_message
+            $('#error').hide()
+
+            $('#Myform').submit(function () {
+                var is_ = expression_only_num.exec($('#username').val())
+
+                if (is_ == null) {
+
+                    $error_message = $('#error').replaceWith($('<span id="error">请确保用户名为纯数字的QQ号</span>'))
+                    $('#error').show()
+                    return false
+                }
+                else if ($('#password').val() != $('#password_again').val()) {
+                    $error_message = $('#error').replaceWith($('<span id="error">请保证两次输入的密码相同</span>'))
+                    $('#error').show()
+                    return false
+                }
+                else {
+                    return true
+                }
+            })
+        })
+    </script>
+{% endblock %}
+{% block toolbars_text %}<h2>快人一步</h2>{% endblock %}
+{% block toolbars %}
+    <a href="" data-rel="back">返回</a>
+{% endblock %}
+
+
+{% block content %}
+    <form action="{% url 'add_user' %}" method="post" id="Myform" data-ajax="false">
+        {% if error %}
+            <p><strong>{{ error }}</strong></p>
+        {% endif %}
+        <span id="error"></span>
+        {% csrf_token %}
+        {{ form }}
+        <br>
+        <input type="submit" value="注册" id="submit"/>
+    </form>
+{% endblock %}
+
+{% block footer %}
+    <a href="#" data-role="button">关于</a>
+    <a href="#" data-role="button">注册</a>
+    <a href="#" data-role="button">忘记密码</a>
+{% endblock %}

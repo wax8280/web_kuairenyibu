@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block toolbars_text %}<h2>快人一步</h2>{% endblock %}
+
+
+
+{% block content %}
+    <form action="" method="post" id="Myform" data-ajax="false">
+        {% if error %}
+            <p><strong>{{ error }}</strong></p>
+        {% endif %}
+        {% csrf_token %}
+        {{ form }}
+        <br>
+        <input type="submit" value="登录" id="submit"/>
+    </form>
+{% endblock %}
+
+{% block footer %}
+    <a href="#" data-role="button">关于</a>
+    <a href="{% url 'add_user' %}" data-role="button">注册</a>
+    <a href="#" data-role="button">忘记密码</a>
+{% endblock %}
