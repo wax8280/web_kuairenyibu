@@ -33,23 +33,54 @@ def view_case_set(request):
 
 
 @login_required
-def view_his(request, case_id):
+def view_his(request, case_id, cur=0):
     has_session = bool(getattr(request, 'session', False))
 
     if not has_session:
         return redirect('login')
 
+    try:
+        limit = int(request.GET['limit']) if request.GET['limit'] else 50
+    except:
+        limit = 50
+
+    try:
+        cur = int(cur)
+    except:
+        cur = 0
+
     user = request.user.username
     item_ = []
     e_mail_full = user + '@qq.com'
+    no_next = 0
+    no_prev = 0
+    next_cur = cur
+    prev_cur = cur
     try:
+        count = his.objects.filter(case_id=case_id, user_email=e_mail_full).count()
         his_ = his.objects.filter(case_id=case_id, user_email=e_mail_full).order_by('-timesort')
         for each in his_:
             item_.append(item.objects.get(article_id=each.article_id))
+
+        if cur + limit > count:
+            next_cur = cur
+            no_next = 1
+        else:
+            next_cur = cur + limit
+            no_next = 0
+
+        if cur - limit < 0:
+            prev_cur = cur
+            no_prev = 1
+        else:
+            prev_cur = cur - limit
+            no_prev = 0
     except Exception as e:
         pass
 
-    return render(request, 'his.html', {'item': item_, 'e_mail': user})
+    return render(request, 'his.html',
+                  {'item': item_, 'e_mail': user,'case_id':case_id, 'next_cur': next_cur, 'prev_cur': prev_cur, 'no_next': no_next,
+                   'no_prev': no_prev})
 
 
 from django.http import HttpResponsePermanentRedirect
@@ -102,18 +133,6 @@ def add_case(request, e_mail):
 
 
 @login_required
-def home_redirect(request):
-    try:
-        user = request.user.username
-    except:
-        user = False
-    if user != False:
-        return redirect('home_page', user)
-    else:
-        return redirect('login')
-
-
-@login_required
 def home_page(request, cur=0):
     has_session = bool(getattr(request, 'session', False))
 
@@ -121,9 +140,9 @@ def home_page(request, cur=0):
         return redirect('login')
 
     try:
-        limit = int(request.GET['limit']) if request.GET['limit'] else 5
+        limit = int(request.GET['limit']) if request.GET['limit'] else 50
     except:
-        limit = 5
+        limit = 50
 
     try:
         cur = int(cur)
@@ -136,10 +155,12 @@ def home_page(request, cur=0):
     item_ = []
     no_next = 0
     no_prev = 0
+    next_cur = cur
+    prev_cur = cur
     try:
 
         count = his.objects.filter(user_email=e_mali_full).count()
-        his_ = his.objects.filter(user_email=e_mali_full).order_by('-timesort')[cur:cur + limit]
+        his_ = his.objects.filter(user_email=e_mali_full).order_by('-inserted_timesort')[cur:cur + limit]
         for each in his_:
             item_.append(item.objects.get(article_id=each.article_id))
 
@@ -161,7 +182,7 @@ def home_page(request, cur=0):
         pass
 
     return render(request, 'home.html',
-                  {'item': item_, 'e_mail': user, 'debug': no_next, 'next_cur': next_cur, 'prev_cur': prev_cur,
+                  {'item': item_, 'e_mail': user, 'next_cur': next_cur, 'prev_cur': prev_cur,
                    'no_next': no_next, 'no_prev': no_prev})
 
 

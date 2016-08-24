@@ -13,6 +13,18 @@ static{% extends 'base.html' %}
     </ul>
 {% endblock %}
 
+{% block page %}
+    <script type="text/javascript">
+    //jquery Mobile采用ajax加载，所以出此下策
+        $(document).ready(function(){
+            {$('#no_next_1').addClass('ui-state-disabled')}
+            {$('#no_prev_1').addClass('ui-state-disabled')}
+            {$('#no_next_0').removeClass('ui-state-disabled')}
+            {$('#no_prev_0').removeClass('ui-state-disabled')}
+        })
+    </script>
+{% endblock %}
+
 {% block content %}
     <ul data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="查找">
         {% if item %}
@@ -31,4 +43,9 @@ static{% extends 'base.html' %}
         {% endif %}
 
     </ul>
+
+    <div>
+        <a href="{% url 'his_page_with_pages' case_id prev_cur %}" data-role="button" class="ui-btn ui-btn-inline " id="no_prev_{{ no_prev }}">上一页</a>
+        <a href="{% url 'his_page_with_pages' case_id next_cur %}" data-role="button" class="ui-btn ui-btn-inline " id="no_next_{{ no_next }}" style="float: right">下一页</a>
+    </div>
 {% endblock %}

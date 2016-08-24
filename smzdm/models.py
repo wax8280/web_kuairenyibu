@@ -22,6 +22,7 @@ class his(models.Model):
     article_id=models.CharField(max_length=50)
     timesort=models.BigIntegerField()
     user_email=models.EmailField()
+    inserted_timesort=models.CharField(max_length=50,default=0)
 
 
 class item(models.Model):

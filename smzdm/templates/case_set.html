@@ -1,5 +1,19 @@
 {% extends 'base.html' %}
-{% block head %}
+{% block toolbars_text %}<h2>快人一步</h2>{% endblock %}
+{% block toolbars %}
+    <a href="" data-rel="back">返回</a>
+    <a href="#" data-role="button" data-icon="gear" data-iconpos="notext" class="ui-btn-right">设置</a>
+{% endblock %}
+
+{% block navbar %}
+    <ul>
+        <li><a href="{% url 'home_page' %}">首页</a></li>
+        <li><a href="{% url 'view_case_set' %}" class="ui-btn-active ui-state-persist">推送设置</a></li>
+        <li><a href="{% url 'view_user_info' %}">我的信息</a></li>
+    </ul>
+{% endblock %}
+
+{% block page %}
     <script type="text/javascript">
         $(document).ready(function () {
             $('.delete').on("tap", function (e) {
@@ -28,19 +42,7 @@
         })
     </script>
 {% endblock %}
-{% block toolbars_text %}<h2>快人一步</h2>{% endblock %}
-{% block toolbars %}
-    <a href="" data-rel="back">返回</a>
-    <a href="#" data-role="button" data-icon="gear" data-iconpos="notext" class="ui-btn-right">设置</a>
-{% endblock %}
 
-{% block navbar %}
-    <ul>
-        <li><a href="{% url 'home_page' %}">首页</a></li>
-        <li><a href="{% url 'view_case_set' %}" class="ui-btn-active ui-state-persist">推送设置</a></li>
-        <li><a href="{% url 'view_user_info' %}">我的信息</a></li>
-    </ul>
-{% endblock %}
 
 {% block content %}
     <ul data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="查找" data-icon="false"
