@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block toolbars_text %}<h2>快人一步</h2>{% endblock %}
+{% block toolbars %}
+    <a href="" data-rel="back">返回</a>
+    <a href="#" data-role="button" data-icon="gear" data-iconpos="notext" class="ui-btn-right">设置</a>
+{% endblock %}
+
+{% block navbar %}
+    <ul>
+        <li><a href="{% url 'home_page' %}">首页</a></li>
+        <li><a href="{% url 'view_case_set' %}">推送设置</a></li>
+        <li><a href="{% url 'view_user_info' %}">我的信息</a></li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <h2 style="text-align: center">{% block text %}{% endblock %}</h2>
+    <hr style="margin-bottom: 15px">
+    <img style="margin: 0 auto;display: block;height: auto;max-width: 100%;" src="/smzdm/static/img/yilianmengbi.jpg">
+
+{% endblock %}

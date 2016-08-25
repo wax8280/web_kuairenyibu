@@ -9,18 +9,14 @@ error_add_user_repeatuser = '用户名重复！'
 error_add_user_notvaild = '请准确填写'
 
 
+
 @login_required
 def view_case_set(request):
-    has_session = bool(getattr(request, 'session', False))
-
-    if not has_session:
-        return redirect('login')
 
     user = request.user.username
 
     e_mail_full = user + '@qq.com'
 
-    my_err = ''
     try:
         caselists_ = case_info.objects.filter(e_mail=e_mail_full)
 
@@ -34,10 +30,6 @@ def view_case_set(request):
 
 @login_required
 def view_his(request, case_id, cur=0):
-    has_session = bool(getattr(request, 'session', False))
-
-    if not has_session:
-        return redirect('login')
 
     try:
         limit = int(request.GET['limit']) if request.GET['limit'] else 50
@@ -134,13 +126,12 @@ def add_case(request, e_mail):
 
 @login_required
 def home_page(request, cur=0):
-    has_session = bool(getattr(request, 'session', False))
-
-    if not has_session:
-        return redirect('login')
+    has_ip='REMOTE_ADDR' in request.META.keys()
+    if has_ip:
+        ip=request.META['REMOTE_ADDR']
 
     try:
-        limit = int(request.GET['limit']) if request.GET['limit'] else 50
+        limit = int(request.GET['limit']) if 'limit' in request.GET else 50
     except:
         limit = 50
 
@@ -183,15 +174,11 @@ def home_page(request, cur=0):
 
     return render(request, 'home.html',
                   {'item': item_, 'e_mail': user, 'next_cur': next_cur, 'prev_cur': prev_cur,
-                   'no_next': no_next, 'no_prev': no_prev})
+                   'no_next': no_next, 'no_prev': no_prev,'debug':ip})
 
 
 @login_required
 def delete_case(request, case_id):
-    has_session = bool(getattr(request, 'session', False))
-
-    if not has_session:
-        return redirect('login')
 
     user = request.user.username
 
@@ -234,11 +221,6 @@ def login(request):
 
 @login_required
 def logout(request):
-    has_session = bool(getattr(request, 'session', False))
-
-    if not has_session:
-        return redirect('login')
-
     auth.logout(request)
     form = LoginForm()
     return render(request, 'login.html', {'form': form,})
@@ -246,11 +228,6 @@ def logout(request):
 
 @login_required
 def view_user_info(request):
-    has_session = bool(getattr(request, 'session', False))
-
-    if not has_session:
-        return redirect('login')
-
     return render(request, 'user_info.html')
 
 
