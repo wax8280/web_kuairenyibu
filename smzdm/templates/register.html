@@ -34,7 +34,7 @@
 
 
 {% block content %}
-    <form action="{% url 'add_user' %}" method="post" id="Myform" data-ajax="false">
+    <form action="{% url 'register' %}" method="post" id="Myform" data-ajax="false">
         {% if error %}
             <p><strong>{{ error }}</strong></p>
         {% endif %}

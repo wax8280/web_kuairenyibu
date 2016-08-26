@@ -12,6 +12,8 @@ urlpatterns = [
     url(r'^case_set/case_delete/(?P<case_id>[0-9]+)/$',views.delete_case,name='delete_case'),
     url(r'^login/$',views.login,name='login'),
     url(r'^logout/$',views.logout,name='logout'),
-    url(r'^add_user/$',views.add_user,name='add_user'),
+    url(r'^register/$', views.register, name='register'),
+    url(r'^register/active_user/(?P<token>.*)/$', views.active_user, name='active_user'),
+
     url(r'^user_info/$',views.view_user_info,name='view_user_info'),
 ]

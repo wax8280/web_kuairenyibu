@@ -76,3 +76,15 @@ class UserForm(forms.Form):
                     }
             ),
     )
+
+    nick_name=forms.CharField(
+        required=True,
+        label='昵称',
+        error_messages={'required':'请输入昵称'},
+        widget=forms.PasswordInput(
+                attrs={
+                    'placeholder': "昵称",
+                    'id':'nick_name',
+                }
+        ),
+    )
