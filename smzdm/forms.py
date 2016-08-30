@@ -81,10 +81,49 @@ class UserForm(forms.Form):
         required=True,
         label='昵称',
         error_messages={'required':'请输入昵称'},
-        widget=forms.PasswordInput(
+        widget=forms.TextInput(
                 attrs={
                     'placeholder': "昵称",
                     'id':'nick_name',
                 }
         ),
     )
+
+
+class ForgotForm(forms.Form):
+    username = forms.CharField(
+            required=True,
+            label="请输入要找回的用户名",
+            error_messages={'required': '请输入要找回的用户名'},
+            widget=forms.NumberInput(
+                    attrs={
+                        'placeholder': "目前只支持QQ邮箱，请输入QQ号",
+                        'id':'username',
+                    }
+            ),
+            validators=[validate_num]
+    )
+    password = forms.CharField(
+            required=True,
+            label="新的密码",
+            error_messages={'required': '请输入新的密码'},
+            widget=forms.PasswordInput(
+                    attrs={
+                        'placeholder': "密码",
+                        'id':'password',
+                    }
+            ),
+    )
+
+    password_again = forms.CharField(
+            required=True,
+            label="确认新的密码",
+            error_messages={'required': '请输入新的密码'},
+            widget=forms.PasswordInput(
+                    attrs={
+                        'placeholder': "确认密码",
+                        'id':'password_again',
+                    }
+            ),
+    )
+

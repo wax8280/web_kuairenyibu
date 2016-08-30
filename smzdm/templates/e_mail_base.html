@@ -16,7 +16,7 @@
         <h4 style="text-align: center">{{info}}</h4>
         <p style="text-align: center">您好！感谢您使用“快人一步”，您正在进行邮箱验证，本次请求的验证链接：</p>
         <p style="text-align: center;padding: 10px;border-radius: 10px;background-color:#f6f6f6;text-decoration:none;box-shadow:2px 2px 5px #777777;">
-            <a data-role="button" href="{{ DOMAIM }}{% url 'active_user' token %}" style="text-decoration:none;display: block;font-size: 1.5em;color: #282828">直达链接</a>
+            <a data-role="button" href="{{ DOMAIM }}{% block url %}{% endblock %}" style="text-decoration:none;display: block;font-size: 1.5em;color: #282828">直达链接</a>
         </p>
 
     </div>

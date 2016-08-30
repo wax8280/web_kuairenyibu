@@ -131,7 +131,3 @@ STATIC_URL = '/smzdm/static/'
 LOGIN_URL='/smzdm/login/'
 LOGOUT_URL='/smzdm/logout/'
 LOGIN_REDIRECT_URL='/smzdm/'
-
-PASSWORD_HASHERS = (
-    'django.contrib.auth.hashers.MD5PasswordHasher',
-)

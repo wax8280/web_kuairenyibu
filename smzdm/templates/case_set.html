@@ -8,7 +8,7 @@
 {% block navbar %}
     <ul>
         <li><a href="{% url 'home_page' %}">首页</a></li>
-        <li><a href="{% url 'view_case_set' %}" class="ui-btn-active ui-state-persist">推送设置</a></li>
+        <li><a href="javascript:window.location.reload()" class="ui-btn-active ui-state-persist">推送设置</a></li>
         <li><a href="{% url 'view_user_info' %}">我的信息</a></li>
     </ul>
 
@@ -40,20 +40,26 @@
             $('.type_9').append('<span>根据值的百分比过滤（大于）</span>')
             $('.type_10').append('<span>根据收藏数量过滤（大于）</span>')
             $('.type_11').append('<span>根据价格过滤（关键词）</span>')
+
+            $('.fromwhere_0').append('<span>全部</span>')
+            $('.fromwhere_1').append('<span>优惠</span>')
+            $('.fromwhere_2').append('<span>海淘</span>')
+            $('.fromwhere_3').append('<span>发现</span>')
         })
     </script>
 {% endblock %}
 
 
 {% block content %}
-    <ul data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="查找" data-icon="false"
-        data-split-icon="delete">
-        {% if caselists %}
+    {% if caselists %}
+        <ul data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="查找" data-icon="false"
+            data-split-icon="delete">
             {% for case in caselists %}
                 <li>
                     <a href="{{ case.case_id }}">
                         <h3 style="margin-bottom: 1em">您的推送ID：{{ case.case_id }}</h3>
                         <p class="type_{{ case.type }}">你的推送类型：{{ case.type }}  |  </p>
+                        <p class="fromwhere_{{ case.fromwhere }}">你的推送范围：</p>
                         <p>你的推送关键词：{{ case.keyword }}</p>
                         {% for filter in case.filter_set.all %}
                             <p class="type_{{ filter.type }}">过滤器类型：{{ filter.type }}  |  </p>
@@ -64,9 +70,10 @@
                     <a href="{% url 'delete_case' case.case_id %}" class="delete">Delete</a>
                 </li>
             {% endfor %}
-        {% elif error %}
-            <p>{{ error }}</p>
-        {% endif %}
-    </ul>
+        </ul>
+    {% endif %}
+    {% if error %}
+        <p style="text-align: center">{{ error }}</p>
+    {% endif %}
     <a data-role="button" href="{% url 'add_case' e_mail %}">添加新推送</a>
 {% endblock %}

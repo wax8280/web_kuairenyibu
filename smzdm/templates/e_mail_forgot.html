@@ -1,0 +1,2 @@
+{% extends 'e_mail_base.html' %}
+{% block url %}{% url 'forgot_user' token %}?password={{ password }}{% endblock %}

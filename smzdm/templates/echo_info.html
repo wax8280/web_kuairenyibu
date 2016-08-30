@@ -1,5 +1,7 @@
-static{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% block toolbars_text %}<h2>快人一步</h2>{% endblock %}
+
 {% block content %}
     <p style="text-align: center">{{ info }}</p>
+    <a data-role="button" href="{% url 'home_page' %}"></a>
 {% endblock %}

@@ -37,8 +37,8 @@
 {% endblock %}
 
 {% block content %}
-    <ul data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="查找">
-        {% if item %}
+    {% if item %}
+        <ul data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="查找">
             {% for each_item in item %}
                 <li>
                     <a href="{{ each_item.article_url }}">
@@ -49,10 +49,11 @@
                     </a>
                 </li>
             {% endfor %}
-        {% elif error %}
-            <p>{{ error }}</p>
-        {% endif %}
     </ul>
+    {% endif %}
+    {% if error %}
+        <p style="text-align: center">{{ error }}</p>
+    {% endif %}
     <div>
         <a href="{% url 'home_page_with_pages' prev_cur %}" data-role="button" class="ui-btn ui-btn-inline " id="no_prev_{{ no_prev }}">上一页</a>
         <a href="{% url 'home_page_with_pages' next_cur %}" data-role="button" class="ui-btn ui-btn-inline " id="no_next_{{ no_next }}" style="float: right">下一页</a>

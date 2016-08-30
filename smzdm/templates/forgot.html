@@ -6,7 +6,7 @@
             var $error_message
             $('#error').hide()
 
-            $('#registerform').submit(function () {
+            $('#forgotform').submit(function () {
                 var is_ = expression_only_num.exec($('#username').val())
 
                 if (is_ == null) {
@@ -34,7 +34,7 @@
 
 
 {% block content %}
-    <form action="{% url 'register' %}" method="post" id="registerform" data-ajax="false">
+    <form action="{% url 'forget_page' %}" method="post" id="forgotform" data-ajax="false">
         {% if error %}
             <p><strong>{{ error }}</strong></p>
         {% endif %}
@@ -42,12 +42,12 @@
         {% csrf_token %}
         {{ form }}
         <br>
-        <input type="submit" value="注册" id="submit"/>
+        <input type="submit" value="找回密码" id="submit"/>
     </form>
 {% endblock %}
 
 {% block footer %}
     <a href="#" data-role="button">关于</a>
-    <a href="javascript:window.location.reload()" data-role="button">注册</a>
-    <a href="{% url 'forget_page' %}" data-role="button">忘记密码</a>
+    <a href="{% url 'register' %}" data-role="button">注册</a>
+    <a href="javascript:window.location.reload()" data-role="button">忘记密码</a>
 {% endblock %}
