@@ -5,3 +5,13 @@
 .his_span{
     color: gray;
 }
+
+p{
+    white-space:normal !important;
+    font-family: 'Microsoft YaHei' !important;
+}
+
+h1,h2,h3,h4,h5,h6,span,small{
+    font-family: 'Microsoft YaHei'!important;
+}
+

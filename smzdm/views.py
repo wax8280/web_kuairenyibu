@@ -7,11 +7,11 @@ from tools.my_config import *
 import smtplib
 from email.header import Header
 from email.mime.text import MIMEText
-from django.template.response import SimpleTemplateResponse,TemplateResponse
+from django.template.response import SimpleTemplateResponse
 from tools.settings import SECRET_KEY
 from .utils.token import Token
 from .utils.functions import *
-from .forms import LoginForm, UserForm,ForgotForm
+from .forms import LoginForm, UserForm, ForgotForm
 from django.contrib import auth
 from django.contrib.auth.models import User
 
@@ -19,7 +19,7 @@ error_login_message = '密码或用户名错误.如果您是未激活的用户�
 error_register_repeatuser = '用户名重复'
 error_register_notvaild = '请准确填写'
 error_register_ip_limit = '同一IP注册用户数超过限制，请与管理员联系'
-error_forgot_no_this_user='没有这个用户，请确认'
+error_forgot_no_this_user = '没有这个用户，请确认'
 
 IP_LIMIT = 10
 IS_IP_LIMIT = True
@@ -38,7 +38,8 @@ def view_case_set(request):
                       {'caselists': caselists_, 'e_mail': user})
     else:
         return render(request, 'case_set.html',
-                      {'error':'您还没有添加推送呢。赶紧添加一条','e_mail': user})
+                      {'error': '您还没有添加推送呢。赶紧添加一条', 'e_mail': user})
+
 
 @login_required
 def view_his(request, case_id, cur=0):
@@ -157,10 +158,10 @@ def home_page(request, cur=0):
     else:
         prev_cur = cur - limit
         no_prev = 0
-    if count==0:
+    if count == 0:
         return render(request, 'home.html',
-              {'item': item_, 'e_mail': user, 'next_cur': next_cur, 'prev_cur': prev_cur,
-               'no_next': no_next, 'no_prev': no_prev,'error':'您还没有添加推送呢。赶紧添加一条'})
+                      {'item': item_, 'e_mail': user, 'next_cur': next_cur, 'prev_cur': prev_cur,
+                       'no_next': no_next, 'no_prev': no_prev, 'error': '您还没有添加推送呢。赶紧添加一条'})
 
     return render(request, 'home.html',
                   {'item': item_, 'e_mail': user, 'next_cur': next_cur, 'prev_cur': prev_cur,
@@ -224,7 +225,7 @@ def register(request):
             username, password, nick_name = form_data['username'], form_data['password'], form_data['nick_name']
 
             # IP注册限制
-            ip = try_get_from_dict(request.META, 'REMOTE_ADDR', '0.0.0.0')
+            ip = try_get_from_dict(request.META, 'HTTP_X_FORWARDED_FOR', '0.0.0.0')
             if IS_IP_LIMIT:
                 ip_count = My_user.objects.filter(register_ip=ip).count() if ip != '0.0.0.0' else 0
                 if ip_count >= IP_LIMIT:
@@ -257,8 +258,8 @@ def register(request):
                 except smtplib.SMTPException:
                     pass
 
-            u=User.objects.create_user(username=username, password=password, is_active=False)
-            My_user.objects.create(user=u,register_ip=ip,nick_name=nick_name,username=username)
+            u = User.objects.create_user(username=username, password=password, is_active=False)
+            My_user.objects.create(user=u, register_ip=ip, nick_name=nick_name, username=username)
             return render(request, 'echo_info.html', {'info': u"请登录到注册邮箱中验证用户，有效期为1个小时。"})
 
 
@@ -286,15 +287,16 @@ def active_user(request, token):
     user.save()
     return redirect('login')
 
+
 def forget_page(request):
-    if request.method=='GET':
-        form=ForgotForm()
-        return render(request,'forgot.html',{'form':form})
+    if request.method == 'GET':
+        form = ForgotForm()
+        return render(request, 'forgot.html', {'form': form})
     else:
-        form=ForgotForm(request.POST)
+        form = ForgotForm(request.POST)
         if form.is_valid():
             form_data = form.cleaned_data
-            username,password=form_data['username'], form_data['password']
+            username, password = form_data['username'], form_data['password']
 
             try:
                 User.objects.get(username=username)
@@ -304,39 +306,40 @@ def forget_page(request):
 
             token = token_confirm.generate_validate_token(username)
 
-            # receivers = username + '@qq.com'
-            # e_mail_template = SimpleTemplateResponse('e_mail_forgot.html',
-            #                                          {'info': '来自“快人一步”的重设密码邮件', 'token': token, 'DOMAIM': DOMAIM,'password':password})
-            # text = e_mail_template.render().content
-            # message = MIMEText(text, 'html', 'utf-8')
-            # message['From'] = Header(u"快人一步", 'utf-8')
-            # # TODO：add nickname
-            # message['To'] = Header(username, 'utf-8')
-            # message['Subject'] = Header('来自“快人一步”的重设密码邮件', 'utf-8')
-            #
-            # for i in range(10):
-            #     try:
-            #         smtpObj = smtplib.SMTP(mail_host, 25)
-            #         smtpObj.login(mail_user, mail_pass)
-            #         smtpObj.sendmail(sender, receivers, message.as_string())
-            #         break
-            #     except smtplib.SMTPException:
-            #         pass
-            #
-            # return render(request, 'echo_info.html', {'info': u"请登录到注册邮箱中确认修改的密码，有效期为1个小时。"})
+            receivers = username + '@qq.com'
+            e_mail_template = SimpleTemplateResponse('e_mail_forgot.html',
+                                                     {'info': '来自“快人一步”的重设密码邮件', 'token': token, 'DOMAIM': DOMAIM,
+                                                      'password': password})
+            text = e_mail_template.render().content
+            message = MIMEText(text, 'html', 'utf-8')
+            message['From'] = Header(u"快人一步", 'utf-8')
+            # TODO：add nickname
+            message['To'] = Header(username, 'utf-8')
+            message['Subject'] = Header('来自“快人一步”的重设密码邮件', 'utf-8')
 
-            return TemplateResponse(request,'e_mail_forgot.html',
-                {'info': '来自“快人一步”的重设密码邮件', 'token': token, 'DOMAIM': DOMAIM,'password':password})
+            for i in range(10):
+                try:
+                    smtpObj = smtplib.SMTP(mail_host, 25)
+                    smtpObj.login(mail_user, mail_pass)
+                    smtpObj.sendmail(sender, receivers, message.as_string())
+                    break
+                except smtplib.SMTPException:
+                    pass
+
+            return render(request, 'echo_info.html', {'info': u"请登录到注册邮箱中确认修改的密码，有效期为1个小时。"})
+
+            # return TemplateResponse(request,'e_mail_forgot.html',
+            #     {'info': '来自“快人一步”的重设密码邮件', 'token': token, 'DOMAIM': DOMAIM,'password':password})
 
 
-def forgot_user(request,token):
+def forgot_user(request, token):
     try:
         username = token_confirm.confirm_validate_token(token)
     except:
         return render(request, 'echo_info.html', {'info': '对不起，验证链接已经过期'})
 
-    password=try_get_from_dict(request.GET,'password','')
-    if password=='':return render(request, 'echo_info.html', {'info': '对不起，您还没输入密码'})
+    password = try_get_from_dict(request.GET, 'password', '')
+    if password == '': return render(request, 'echo_info.html', {'info': '对不起，您还没输入密码'})
 
     try:
         user = User.objects.get(username=username)

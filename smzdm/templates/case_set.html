@@ -11,7 +11,6 @@
         <li><a href="javascript:window.location.reload()" class="ui-btn-active ui-state-persist">推送设置</a></li>
         <li><a href="{% url 'view_user_info' %}">我的信息</a></li>
     </ul>
-
 {% endblock %}
 
 {% block page %}
@@ -27,7 +26,6 @@
                         alert('无法删除？似乎服务器有点问题？请向管理员反映。')
                     }
                 })
-
             })
             $('.type_1').append('<span>根据标题过滤（关键词）</span>')
             $('.type_2').append('<span>根据评论数量过滤（大于）</span>')
